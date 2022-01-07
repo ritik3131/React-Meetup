@@ -15,7 +15,7 @@ function HomePage(props) {
         />
       </Head>{" "}
       {props.meetups.length > 0 ? (
-        <MeetupList meetups={props.meetups} />
+        <MeetupList meetups={props.meetups}/>
       ) : (
         <p>Nothing to show</p>
       )}
@@ -38,7 +38,7 @@ function HomePage(props) {
 
 export async function getStaticProps() {
   // fetch data from an API
-  const MongoDb_URL = process.env.DB_URL;
+  const MongoDb_URL = process.env.DB_URL.split('"')[1];
   const client = await MongoClient.connect(MongoDb_URL);
   const db = client.db();
 
