@@ -7,7 +7,7 @@ async function handler(req, res) {
   if (req.method === "POST") {
     const data = req.body;
 
-    const MongoDb_URL= process.env.DB_URL.split;
+    const MongoDb_URL= process.env.DB_URL;
     const client = await MongoClient.connect(MongoDb_URL);
     const db = client.db();
 
