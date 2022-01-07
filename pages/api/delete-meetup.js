@@ -7,7 +7,7 @@ async function handler(req, res) {
   if (req.method === "DELETE") {
     const meetupId= req.body.split('"')[1];
 
-    const MongoDb_URL= process.env.DB_URL.split('"')[1];
+    const MongoDb_URL= process.env.DB_URL;
     const client = await MongoClient.connect(MongoDb_URL);
     const db = client.db();
 

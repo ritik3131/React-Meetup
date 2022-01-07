@@ -38,7 +38,7 @@ function HomePage(props) {
 
 export async function getStaticProps() {
   // fetch data from an API
-  const MongoDb_URL = process.env.DB_URL.split('"')[1];
+  const MongoDb_URL = process.env.DB_URL;
   const client = await MongoClient.connect(MongoDb_URL);
   const db = client.db();
 
