@@ -9,7 +9,7 @@ function MainNavigation() {
 
   return (
     <header className={classes.header}>
-      <div className={classes.logo}>React Meetups</div>
+      <div className={classes.logo}>Next Meetups</div>
       <nav>
         <ul>
           <li>
@@ -34,6 +34,9 @@ function MainNavigation() {
             <div className={classes.signin}>
               <li>
                 <Link href="/new-meetup">Add New Meetup</Link>
+              </li>
+              <li>
+                <Link href="/our-meetup">Our Meetup</Link>
               </li>
               <li>
                 <Link href="/api/auth/signout">

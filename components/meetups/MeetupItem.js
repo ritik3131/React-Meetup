@@ -5,6 +5,7 @@ import classes from "./MeetupItem.module.css";
 
 function MeetupItem(props) {
   const router = useRouter();
+
   const showDetailHandler = () => {
     router.push(`/${props.id}`);
   };
@@ -15,8 +16,6 @@ function MeetupItem(props) {
     });
 
     const data = await response.json();
-
-    console.log(data);
 
     router.replace("/");
   };
@@ -36,8 +35,13 @@ function MeetupItem(props) {
         </div>
         <div className={classes.actions}>
           <button onClick={showDetailHandler}>Show Details</button>
-          <button onClick={updateHandler}>Update</button>
-          <button onClick={deleteHandler}>Delete</button>
+          {props.put && (
+            <>
+              {" "}
+              <button onClick={updateHandler}>Update</button>
+              <button onClick={deleteHandler}>Delete</button>
+            </>
+          )}
         </div>
       </Card>
     </li>

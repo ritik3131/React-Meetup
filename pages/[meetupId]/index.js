@@ -5,6 +5,7 @@ import MeetupDetail from "../../components/meetups/MeetupDetail";
 import dbConnect from "../../utils/dbConnect";
 import meetupModel from "../../models/meetupModel";
 import userModel from "../../models/userModel";
+import { redirect } from "express/lib/response";
 
 function MeetupDetails(props) {
   return (
@@ -41,16 +42,16 @@ export async function getStaticProps(context) {
   // fetch data for a single meetup
   const meetupId = context.params.meetupId;
   dbConnect();
-  
-  const selectedMeetup = await meetupModel.findById(meetupId);
-  const creatorUser=await userModel.findById(selectedMeetup.createdBy)
 
-  if(!selectedMeetup)
-   return {
-     redirect:{
-       destination:`/blog/dfds`
-     }
-   }
+  const selectedMeetup = await meetupModel.findById(meetupId);
+  const creatorUser = await userModel.findById(selectedMeetup.createdBy);
+
+  if (!selectedMeetup&&!creatorUser)
+    return {
+      redirect: {
+        destination: `/blog/dfds`,
+      },
+    };
 
   return {
     props: {
@@ -60,7 +61,7 @@ export async function getStaticProps(context) {
         address: selectedMeetup.address,
         image: selectedMeetup.image,
         description: selectedMeetup.description,
-        createdBy:creatorUser.name
+        createdBy: creatorUser.name,
       },
     },
   };
