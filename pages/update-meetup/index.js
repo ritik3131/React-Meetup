@@ -4,8 +4,8 @@ import { Fragment } from "react";
 import Head from "next/head";
 
 import NewMeetupForm from "../../components/meetups/NewMeetupForm";
-import axios from "axios";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 function NewMeetupPage() {
   const router = useRouter();

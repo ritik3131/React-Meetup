@@ -9,6 +9,25 @@ import { ObjectId } from "mongodb";
 
 function HomePage(props) {
   const { data: session } = useSession();
+
+  if (!session)
+    return (
+      <div>
+        <h2>You are not authorised to this </h2>
+        <p>To see this </p>
+        <Link href="/api/auth/signin">
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              signIn();
+            }}
+          >
+            Signin
+          </a>
+        </Link>
+      </div>
+    );
+
   return (
     <Fragment>
       <Head>
@@ -21,7 +40,7 @@ function HomePage(props) {
       {props.meetups.length > 0 ? (
         <MeetupList
           meetups={props.meetups}
-          sessionUser={session ? session.user.id : "dfsdfsd"}
+          sessionUser={session!==undefined ? session.user.id : "dfsdfsd"}
         />
       ) : (
         <p>Nothing to show</p>
@@ -35,6 +54,13 @@ export async function getServerSideProps(context) {
   const session = await getSession(context);
 
   dbConnect();
+
+  if (session === undefined||!session)
+    return {
+      redirect: {
+        destination: `/`,
+      },
+    };
 
   const meetups = await meetupModel
     .find({ createdBy: ObjectId(session.user.id) })

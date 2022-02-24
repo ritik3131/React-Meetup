@@ -60,7 +60,7 @@ export async function getStaticProps(context) {
         address: selectedMeetup.address,
         image: selectedMeetup.image,
         description: selectedMeetup.description,
-        createdBy: creatorUser.name,
+        createdBy: creatorUser?creatorUser.name:"unknown",
       },
     },
   };
