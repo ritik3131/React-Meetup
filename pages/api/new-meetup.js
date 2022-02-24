@@ -1,4 +1,6 @@
-import meetupModel from "../../models/meetupModel";
+import { ObjectId } from "mongodb";
+import { getSession } from "next-auth/react";
+import meetupModel, { createIndexes } from "../../models/meetupModel";
 import dbConnect from "../../utils/dbConnect";
 
 dbConnect();
@@ -7,12 +9,19 @@ dbConnect();
 
 async function handler(req, res) {
   if (req.method === "POST") {
-    const data = req.body;
+    const session = await getSession({ req });
+    const { title, image, description, address } = req.body;
+    const createdBy= ObjectId(session.user.id)
 
-    const newMeetup=new meetupModel(data)
-    
+    const newMeetup = new meetupModel({
+      title,
+      createdBy,
+      image,
+      description,
+      address,
+    });
+
     await newMeetup.save();
-    // console.log(newMeetup)
     res.status(201).json({ message: "Meetup inserted!" });
   }
 }

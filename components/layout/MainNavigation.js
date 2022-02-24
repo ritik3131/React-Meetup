@@ -1,9 +1,11 @@
 import Link from "next/link";
 import classes from "./MainNavigation.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 function MainNavigation() {
   const { data: session } = useSession();
+  const router =useRouter();
 
   return (
     <header className={classes.header}>

@@ -5,11 +5,32 @@ import Head from "next/head";
 
 import NewMeetupForm from "../../components/meetups/NewMeetupForm";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 function NewMeetupPage() {
   const router = useRouter();
 
   const query = router.query;
+
+  const { data: session } = useSession();
+
+  if (!session)
+    return (
+      <div>
+        <h2>You are not authorised to this </h2>
+        <p>To see this </p>
+        <Link href="/api/auth/signin">
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              signIn();
+            }}
+          >
+            Signin
+          </a>
+        </Link>
+      </div>
+    );
 
   async function updateMeetupHandler(enteredMeetupData) {
     await fetch("/api/update-meetup", {

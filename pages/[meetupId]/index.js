@@ -1,8 +1,10 @@
-import { MongoClient, ObjectId } from "mongodb";
 import { Fragment } from "react";
 import Head from "next/head";
 
 import MeetupDetail from "../../components/meetups/MeetupDetail";
+import dbConnect from "../../utils/dbConnect";
+import meetupModel from "../../models/meetupModel";
+import userModel from "../../models/userModel";
 
 function MeetupDetails(props) {
   return (
@@ -16,21 +18,16 @@ function MeetupDetails(props) {
         title={props.meetupData.title}
         address={props.meetupData.address}
         description={props.meetupData.description}
+        createdBy={props.meetupData.createdBy}
       />
     </Fragment>
   );
 }
 
 export async function getStaticPaths() {
-  const MongoDb_URL= process.env.DB_URL;
-  const client = await MongoClient.connect(MongoDb_URL);
-  const db = client.db();
+  dbConnect();
 
-  const meetupsCollection = db.collection("meetups");
-
-  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
-
-  client.close();
+  const meetups = await meetupModel.find({});
 
   return {
     fallback: "blocking",
@@ -42,20 +39,18 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   // fetch data for a single meetup
-
   const meetupId = context.params.meetupId;
+  dbConnect();
+  
+  const selectedMeetup = await meetupModel.findById(meetupId);
+  const creatorUser=await userModel.findById(selectedMeetup.createdBy)
 
-  const MongoDb_URL= process.env.DB_URL;
-  const client = await MongoClient.connect(MongoDb_URL);
-  const db = client.db();
-
-  const meetupsCollection = db.collection("meetups");
-
-  const selectedMeetup = await meetupsCollection.findOne({
-    _id: ObjectId(meetupId),
-  });
-
-  client.close();
+  if(!selectedMeetup)
+   return {
+     redirect:{
+       destination:`/blog/dfds`
+     }
+   }
 
   return {
     props: {
@@ -65,6 +60,7 @@ export async function getStaticProps(context) {
         address: selectedMeetup.address,
         image: selectedMeetup.image,
         description: selectedMeetup.description,
+        createdBy:creatorUser.name
       },
     },
   };

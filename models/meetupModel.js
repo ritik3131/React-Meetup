@@ -10,11 +10,11 @@ const MeetupsSchema = new Schema({
     type: String,
     required: [true, "Please Provide description"],
   },
-  //   bookedBy: {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "User",
-  //     required: true,
-  //   },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "user",
+    required: true,
+  },
   address: {
     type: String,
     required: [true, "Please Provide address"],
