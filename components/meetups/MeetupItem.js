@@ -8,18 +8,21 @@ function MeetupItem(props) {
   const showDetailHandler = () => {
     router.push(`/${props.id}`);
   };
-  const  deleteHandler = async() => {
-      const response = await fetch("/api/delete-meetup", {
-        method: "DELETE",
-        body: JSON.stringify(props.id),
-      });
-  
-      const data = await response.json();
-  
-      console.log(data);
-  
-      router.replace("/");
-  
+  const deleteHandler = async () => {
+    const response = await fetch("/api/delete-meetup", {
+      method: "DELETE",
+      body: JSON.stringify(props.id),
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    router.replace("/");
+  };
+
+  const updateHandler = () => {
+    router.push({ pathname: "/update-meetup", query: props });
   };
   return (
     <li className={classes.item}>
@@ -33,6 +36,7 @@ function MeetupItem(props) {
         </div>
         <div className={classes.actions}>
           <button onClick={showDetailHandler}>Show Details</button>
+          <button onClick={updateHandler}>Update</button>
           <button onClick={deleteHandler}>Delete</button>
         </div>
       </Card>

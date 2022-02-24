@@ -16,7 +16,7 @@ function HomePage(props) {
         />
       </Head>{" "}
       {props.meetups.length > 0 ? (
-        <MeetupList meetups={props.meetups}/>
+        <MeetupList meetups={props.meetups} />
       ) : (
         <p>Nothing to show</p>
       )}
@@ -37,6 +37,7 @@ export async function getStaticProps() {
         address: meetup.address,
         image: meetup.image,
         id: meetup._id.toString(),
+        description: meetup.description,
       })),
     },
     revalidate: 1,
