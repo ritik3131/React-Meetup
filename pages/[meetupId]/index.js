@@ -5,7 +5,6 @@ import MeetupDetail from "../../components/meetups/MeetupDetail";
 import dbConnect from "../../utils/dbConnect";
 import meetupModel from "../../models/meetupModel";
 import userModel from "../../models/userModel";
-import { redirect } from "express/lib/response";
 
 function MeetupDetails(props) {
   return (
