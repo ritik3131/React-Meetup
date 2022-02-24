@@ -1,7 +1,9 @@
-import Link from 'next/link'
-import classes from './MainNavigation.module.css';
+import Link from "next/link";
+import classes from "./MainNavigation.module.css";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 function MainNavigation() {
+  const { data: session } = useSession();
 
   return (
     <header className={classes.header}>
@@ -9,11 +11,42 @@ function MainNavigation() {
       <nav>
         <ul>
           <li>
-            <Link href='/'>All Meetups</Link>
+            <Link href="/">All Meetups</Link>
           </li>
-          <li>
-            <Link href='/new-meetup'>Add New Meetup</Link>
-          </li>
+
+          {!session && (
+            <li style={{marginRight:'3rem'}}>
+              <Link href="/api/auth/signin">
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signIn();
+                  }}
+                >
+                  Signin
+                </a>
+              </Link>
+            </li>
+          )}
+          {session && (
+            <div className={classes.signin}>
+              <li>
+                <Link href="/new-meetup">Add New Meetup</Link>
+              </li>
+              <li>
+                <Link href="/api/auth/signout">
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      signOut();
+                    }}
+                  >
+                    Sign Out
+                  </a>
+                </Link>
+              </li>
+            </div>
+          )}
         </ul>
       </nav>
     </header>

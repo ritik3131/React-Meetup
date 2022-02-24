@@ -5,13 +5,14 @@
   align-items: center;
   justify-content: space-between;
   background-color: #77002e;
-  padding: 0 10%;
+  /* padding: 0 10%; */
 }
 
 .logo {
   font-size: 2rem;
   color: white;
   font-weight: bold;
+  padding-left: 2%;
 }
 
 .header ul {
@@ -36,4 +37,11 @@
 .header a:active,
 .header a.active {
   color: white;
+}
+
+.signin{
+  /* margin-left: 4rem; */
+  margin-right: 2rem;
+  display: flex;
+  flex-direction: row;
 }
