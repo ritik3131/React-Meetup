@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { MongoClient } from "mongodb";
 
 import MeetupList from "../components/meetups/MeetupList";
 import { Fragment } from "react";
+import dbConnect from "../utils/dbConnect";
+import meetupModel from "../models/meetupModel";
 
 function HomePage(props) {
   return (
@@ -23,30 +24,11 @@ function HomePage(props) {
   );
 }
 
-// export async function getServerSideProps(context) {
-//   const req = context.req;
-//   const res = context.res;
-
-//   // fetch data from an API
-
-//   return {
-//     props: {
-//       meetups: DUMMY_MEETUPS
-//     }
-//   };
-// }
-
 export async function getStaticProps() {
   // fetch data from an API
-  const MongoDb_URL = process.env.DB_URL;
-  const client = await MongoClient.connect(MongoDb_URL);
-  const db = client.db();
+  dbConnect();
 
-  const meetupsCollection = db.collection("meetups");
-
-  const meetups = await meetupsCollection.find().toArray();
-
-  client.close();
+  const meetups = await meetupModel.find({}).exec();
 
   return {
     props: {
