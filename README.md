@@ -1,4 +1,4 @@
-# RealTime-ChatApp
+# React-Meetup 
 
 This is a meetup app which uses Nextjs and NextAuth.js for login.
 ## 🔗 Links
